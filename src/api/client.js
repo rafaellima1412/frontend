@@ -11,6 +11,18 @@
 
 const API_URL = import.meta.env.VITE_API_URL ?? "";
 
+/**
+ * Resolve caminhos de mídia servidos pelo backend (ex: campanha.image =
+ * "/media/outputs/x.png") para uma URL utilizável em <img src>. Usa o mesmo
+ * API_URL do restante do client — em dev isso é vazio (o proxy do Vite
+ * cuida do /media), em prod aponta pro host real da API.
+ */
+export function mediaUrl(path) {
+  if (!path) return null;
+  if (path.startsWith("http://") || path.startsWith("https://")) return path;
+  return `${API_URL}${path}`;
+}
+
 export class ApiError extends Error {
   constructor(message, status, detail) {
     super(message);
