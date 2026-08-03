@@ -1,11 +1,10 @@
 import EmptyState from "./EmptyState";
-
-const FALLBACK_COLOR = "#94a3b8";
+import { generateChartColors } from "../utils/colors";
 
 export default function PlanBreakdownChart({ area }) {
   const labels = area?.labels ?? [];
   const data = area?.data ?? [];
-  const colors = area?.colors ?? [];
+  const colors = generateChartColors(labels.length);
   const total = data.reduce((sum, value) => sum + value, 0);
 
   if (!total) {
@@ -15,7 +14,7 @@ export default function PlanBreakdownChart({ area }) {
   let cursor = 0;
   const gradient = labels
     .map((_, i) => {
-      const color = colors[i] ?? FALLBACK_COLOR;
+      const color = colors[i];
       const start = (cursor / total) * 360;
       cursor += data[i];
       const end = (cursor / total) * 360;
@@ -41,7 +40,7 @@ export default function PlanBreakdownChart({ area }) {
             <span className="flex items-center gap-2 text-slate-600">
               <span
                 className="h-2.5 w-2.5 shrink-0 rounded-full"
-                style={{ backgroundColor: colors[i] ?? FALLBACK_COLOR }}
+                style={{ backgroundColor: colors[i] }}
               />
               {label}
             </span>

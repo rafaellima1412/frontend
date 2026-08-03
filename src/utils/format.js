@@ -29,7 +29,8 @@ export function formatPostType(postType) {
 const ROLE_LABELS = {
   colaborador: "Colaborador",
   gerente: "Gerente",
-  coo: "COO",
+  coordenador: "Coordenador",
+  admin: "Admin",
 };
 
 export function formatRole(role) {

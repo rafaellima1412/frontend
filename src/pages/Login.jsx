@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { ApiError } from "../api/client";
 
+function destinoPorRole(role) {
+  if (role === "coordenador") return "/inicio";
+  if (role === "admin") return "/cadastrar-usuario";
+  return "/dashboard";
+}
+
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
@@ -16,8 +22,8 @@ export default function Login() {
     setError(null);
     setSubmitting(true);
     try {
-      await login(username, password);
-      navigate("/dashboard", { replace: true });
+      const result = await login(username, password);
+      navigate(destinoPorRole(result.role), { replace: true });
     } catch (err) {
       setError(err instanceof ApiError ? err.detail : "Não foi possível entrar.");
     } finally {
