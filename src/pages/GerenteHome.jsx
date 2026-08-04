@@ -60,6 +60,12 @@ export default function GerenteHome() {
             title="Simular venda"
             description="Registra uma venda pra uma campanha, no formato que o ERP vai usar."
           />
+          <ChoiceCard
+            to="/carteira-equipe"
+            icon="📈"
+            title="Carteira do time"
+            description="Resultado e esforço somados dos colaboradores do seu time."
+          />
         </div>
       </main>
     </div>

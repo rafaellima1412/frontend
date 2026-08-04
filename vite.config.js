@@ -7,7 +7,7 @@ import tailwindcss from "@tailwindcss/vite";
 // rodando em localhost:8000, então o browser enxerga tudo como uma origem
 // só — evita todo o problema de cookie cross-site em dev.
 const BACKEND_URL = "http://localhost:8000";
-const BACKEND_PREFIXES = ["/user", "/campanhas", "/vendas", "/times", "/locais", "/media"];
+const BACKEND_PREFIXES = ["/user", "/campanhas", "/vendas", "/carteira", "/times", "/locais", "/media"];
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
