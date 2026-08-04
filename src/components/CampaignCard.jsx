@@ -1,7 +1,16 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { mediaUrl } from "../api/client";
 import { formatDate, formatPostType } from "../utils/format";
 
-export default function CampaignCard({ campanha }) {
+const FORMATOS_SOCIAIS = [
+  { formato: "feed", label: "Feed (quadrado)" },
+  { formato: "stories", label: "Stories (vertical)" },
+  { formato: "post", label: "Post horizontal" },
+];
+
+export default function CampaignCard({ campanha, editHref }) {
+  const [menuAberto, setMenuAberto] = useState(false);
   const image = mediaUrl(campanha.image);
   const postTypeLabel = formatPostType(campanha.post_type);
   const dateLabel = formatDate(campanha.data_criacao);
@@ -13,7 +22,7 @@ export default function CampaignCard({ campanha }) {
   const externalUrl = campanha.url && campanha.url !== campanha.image ? campanha.url : null;
 
   return (
-    <article className="flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:shadow-md">
+    <article className="relative flex flex-col overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200 transition hover:shadow-md">
       {image && (
         <div className="aspect-[4/3] w-full overflow-hidden bg-slate-100">
           <img src={image} alt={campanha.title} className="h-full w-full object-cover" loading="lazy" />
@@ -40,7 +49,7 @@ export default function CampaignCard({ campanha }) {
         <div className="mt-auto flex items-center justify-between gap-3 pt-2">
           {dateLabel && <span className="text-xs text-slate-400">{dateLabel}</span>}
 
-          <div className="flex gap-3">
+          <div className="relative flex items-center gap-3">
             {downloadUrl && (
               <a
                 href={mediaUrl(downloadUrl)}
@@ -60,6 +69,39 @@ export default function CampaignCard({ campanha }) {
               >
                 Abrir link
               </a>
+            )}
+
+            {image && (
+              <button
+                type="button"
+                onClick={() => setMenuAberto((v) => !v)}
+                className="text-xs font-medium text-brand-600 hover:text-brand-700 hover:underline"
+              >
+                Postar em…
+              </button>
+            )}
+
+            {editHref && (
+              <Link to={editHref} className="text-xs font-medium text-slate-500 hover:text-brand-700 hover:underline">
+                Editar
+              </Link>
+            )}
+
+            {menuAberto && (
+              <div className="absolute right-0 bottom-full z-10 mb-1 w-44 rounded-lg bg-white py-1 shadow-lg ring-1 ring-slate-200">
+                {FORMATOS_SOCIAIS.map(({ formato, label }) => (
+                  <a
+                    key={formato}
+                    href={mediaUrl(`/campanhas/${campanha.id}/social/${formato}`)}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={() => setMenuAberto(false)}
+                    className="block px-3 py-1.5 text-sm text-slate-600 hover:bg-slate-50"
+                  >
+                    {label}
+                  </a>
+                ))}
+              </div>
             )}
           </div>
         </div>

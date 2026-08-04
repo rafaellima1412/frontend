@@ -53,7 +53,15 @@ export default function Dashboard() {
               {campanhas.length ? (
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {campanhas.map((campanha) => (
-                    <CampaignCard key={campanha.id} campanha={campanha} />
+                    <CampaignCard
+                      key={campanha.id}
+                      campanha={campanha}
+                      editHref={
+                        user?.role === "gerente" || user?.role === "coordenador"
+                          ? `/campanhas/${campanha.id}/editar`
+                          : null
+                      }
+                    />
                   ))}
                 </div>
               ) : (

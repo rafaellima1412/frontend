@@ -6,6 +6,7 @@ import { ApiError } from "../api/client";
 function destinoPorRole(role) {
   if (role === "coordenador") return "/inicio";
   if (role === "admin") return "/cadastrar-usuario";
+  if (role === "gerente") return "/gerente";
   return "/dashboard";
 }
 
