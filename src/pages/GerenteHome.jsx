@@ -54,6 +54,12 @@ export default function GerenteHome() {
             title="Associar colaboradores"
             description="Busca um colaborador e define o time dele."
           />
+          <ChoiceCard
+            to="/simular-venda"
+            icon="💰"
+            title="Simular venda"
+            description="Registra uma venda pra uma campanha, no formato que o ERP vai usar."
+          />
         </div>
       </main>
     </div>

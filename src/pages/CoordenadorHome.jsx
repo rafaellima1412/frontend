@@ -48,6 +48,12 @@ export default function CoordenadorHome() {
             title="Delegar times a gerentes"
             description="Escolha qual gerente fica responsável por cada time."
           />
+          <ChoiceCard
+            to="/simular-venda"
+            icon="💰"
+            title="Simular venda"
+            description="Registra uma venda pra uma campanha, no formato que o ERP vai usar."
+          />
         </div>
       </main>
     </div>
