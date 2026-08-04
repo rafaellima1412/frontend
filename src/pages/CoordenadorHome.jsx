@@ -54,6 +54,12 @@ export default function CoordenadorHome() {
             title="Simular venda"
             description="Registra uma venda pra uma campanha, no formato que o ERP vai usar."
           />
+          <ChoiceCard
+            to="/carteira-equipe"
+            icon="📈"
+            title="Carteira geral"
+            description="Resultado e esforço somados de todos os colaboradores da empresa."
+          />
         </div>
       </main>
     </div>

@@ -15,6 +15,7 @@ import CriarCampanha from "./pages/CriarCampanha";
 import EditarCampanha from "./pages/EditarCampanha";
 import AssociarColaboradores from "./pages/AssociarColaboradores";
 import SimularVenda from "./pages/SimularVenda";
+import CarteiraEquipe from "./pages/CarteiraEquipe";
 
 /** Ponto de entrada "/" (e qualquer rota desconhecida): manda pra tela
  * certa dependendo de quem está logado — admin só cadastra gente,
@@ -65,6 +66,7 @@ export default function App() {
 
             <Route element={<RequireGerenteOuCoordenador />}>
               <Route path="/simular-venda" element={<SimularVenda />} />
+              <Route path="/carteira-equipe" element={<CarteiraEquipe />} />
             </Route>
           </Route>
 

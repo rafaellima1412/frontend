@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { api, ApiError } from "../api/client";
 import CampaignCard from "../components/CampaignCard";
+import CarteiraSummary from "../components/CarteiraSummary";
 import PlanBreakdownChart from "../components/PlanBreakdownChart";
 import MonthlySalesChart from "../components/MonthlySalesChart";
 import EmptyState from "../components/EmptyState";
@@ -74,6 +75,15 @@ export default function Dashboard() {
                 <EmptyState message="Nenhuma campanha ainda. Assim que uma for criada pro seu time, ela aparece aqui." />
               )}
             </section>
+
+            {user?.role === "colaborador" && (
+              <section>
+                <h2 className="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase">
+                  Minha carteira
+                </h2>
+                <CarteiraSummary />
+              </section>
+            )}
 
             <section>
               <h2 className="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase">Desempenho</h2>
