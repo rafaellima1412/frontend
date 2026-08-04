@@ -48,6 +48,12 @@ export default function GerenteHome() {
             title="Criar campanha"
             description="Gera o material com QR code pra um colaborador."
           />
+          <ChoiceCard
+            to="/associar-colaboradores"
+            icon="🧑‍🤝‍🧑"
+            title="Associar colaboradores"
+            description="Busca um colaborador e define o time dele."
+          />
         </div>
       </main>
     </div>

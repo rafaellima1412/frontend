@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { api, ApiError } from "../api/client";
+import { api, ApiError, mediaUrl } from "../api/client";
 
 const POST_TYPES = [
   { value: "promocao", label: "Promoção" },
@@ -23,9 +23,27 @@ export default function CriarCampanha() {
   const [form, setForm] = useState(EMPTY_FORM);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   function updateField(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleFileChange(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setError(null);
+    setUploading(true);
+    try {
+      const { url } = await api.postForm("/campanhas/upload-imagem", { file });
+      updateField("folder_image", url);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.detail : "Erro ao enviar a imagem. Tenta de novo.");
+      updateField("folder_image", "");
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function handleSubmit(e) {
@@ -103,12 +121,25 @@ export default function CriarCampanha() {
             <div className="space-y-4">
               <Field label="CPF do colaborador" value={form.cpf_usuario} onChange={(v) => updateField("cpf_usuario", v)} />
               <Field label="Matrícula" value={form.matricula} onChange={(v) => updateField("matricula", v)} />
-              <Field
-                label="Imagem base (URL)"
-                value={form.folder_image}
-                onChange={(v) => updateField("folder_image", v)}
-                placeholder="https://…/arte.png"
-              />
+
+              <div className="space-y-1">
+                <label className="text-sm font-medium text-slate-700">Imagem base</label>
+                <input
+                  type="file"
+                  accept="image/png,image/jpeg,image/webp"
+                  onChange={handleFileChange}
+                  className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-50 file:px-3 file:py-2 file:text-sm file:font-medium file:text-brand-700 hover:file:bg-brand-100"
+                />
+                {uploading && <p className="text-xs text-slate-400">Enviando imagem…</p>}
+                {!uploading && form.folder_image && (
+                  <img
+                    src={mediaUrl(form.folder_image)}
+                    alt="Prévia da imagem base"
+                    className="mt-2 h-32 w-auto rounded-lg border border-slate-200 object-contain"
+                  />
+                )}
+              </div>
+
               <p className="-mt-2 text-xs text-slate-400">
                 O QR code (com CPF e matrícula) é colado automaticamente sobre essa imagem.
               </p>
@@ -117,7 +148,7 @@ export default function CriarCampanha() {
 
           <button
             type="submit"
-            disabled={submitting}
+            disabled={submitting || uploading || !form.folder_image}
             className="w-full rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-brand-700 disabled:opacity-60"
           >
             {submitting ? "Gerando…" : "Criar campanha"}

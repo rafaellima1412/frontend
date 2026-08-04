@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { api, ApiError } from "../api/client";
 import CampaignCard from "../components/CampaignCard";
@@ -25,6 +26,11 @@ export default function Dashboard() {
     <div className="min-h-screen bg-slate-50">
       <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4">
         <div>
+          {user?.role === "coordenador" && (
+            <Link to="/inicio" className="mb-1 block text-sm text-slate-500 hover:text-brand-700">
+              ← Voltar
+            </Link>
+          )}
           <p className="text-sm text-slate-500">Olá,</p>
           <div className="flex items-center gap-2">
             <p className="font-medium text-ink-900">{user?.username}</p>
