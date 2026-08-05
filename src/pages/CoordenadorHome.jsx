@@ -49,6 +49,12 @@ export default function CoordenadorHome() {
             description="Escolha qual gerente fica responsável por cada time."
           />
           <ChoiceCard
+            to="/campanhas-por-gerente"
+            icon="📣"
+            title="Campanhas por gerente"
+            description="Veja as campanhas do time de um gerente específico."
+          />
+          <ChoiceCard
             to="/simular-venda"
             icon="💰"
             title="Simular venda"

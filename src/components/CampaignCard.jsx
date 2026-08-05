@@ -9,7 +9,7 @@ const FORMATOS_SOCIAIS = [
   { formato: "post", label: "Post horizontal" },
 ];
 
-export default function CampaignCard({ campanha, editHref }) {
+export default function CampaignCard({ campanha, editHref, showPostar = true }) {
   const [menuAberto, setMenuAberto] = useState(false);
   const image = mediaUrl(campanha.image);
   const postTypeLabel = formatPostType(campanha.post_type);
@@ -71,7 +71,7 @@ export default function CampaignCard({ campanha, editHref }) {
               </a>
             )}
 
-            {image && (
+            {image && showPostar && (
               <button
                 type="button"
                 onClick={() => setMenuAberto((v) => !v)}

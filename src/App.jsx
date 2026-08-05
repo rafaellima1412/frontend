@@ -14,8 +14,10 @@ import GerenteHome from "./pages/GerenteHome";
 import CriarCampanha from "./pages/CriarCampanha";
 import EditarCampanha from "./pages/EditarCampanha";
 import AssociarColaboradores from "./pages/AssociarColaboradores";
+import AssociarCampanha from "./pages/AssociarCampanha";
 import SimularVenda from "./pages/SimularVenda";
 import CarteiraEquipe from "./pages/CarteiraEquipe";
+import CampanhasPorGerente from "./pages/CampanhasPorGerente";
 
 /** Ponto de entrada "/" (e qualquer rota desconhecida): manda pra tela
  * certa dependendo de quem está logado — admin só cadastra gente,
@@ -52,6 +54,7 @@ export default function App() {
             <Route element={<RequireCoordenador />}>
               <Route path="/inicio" element={<CoordenadorHome />} />
               <Route path="/delegar-times" element={<DelegarTimes />} />
+              <Route path="/campanhas-por-gerente" element={<CampanhasPorGerente />} />
             </Route>
 
             <Route element={<RequireAdmin />}>
@@ -62,6 +65,7 @@ export default function App() {
               <Route path="/gerente" element={<GerenteHome />} />
               <Route path="/campanhas/nova" element={<CriarCampanha />} />
               <Route path="/associar-colaboradores" element={<AssociarColaboradores />} />
+              <Route path="/associar-campanha" element={<AssociarCampanha />} />
             </Route>
 
             <Route element={<RequireGerenteOuCoordenador />}>
