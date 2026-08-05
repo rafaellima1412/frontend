@@ -43,6 +43,12 @@ export default function GerenteHome() {
             description="Campanhas e vendas do seu time."
           />
           <ChoiceCard
+            to="/dashboard"
+            icon="📊"
+            title="Campanhas e vendas do time"
+            description="Vê as campanhas cadastradas e as vendas do time, por mês."
+          />
+          <ChoiceCard
             to="/campanhas/nova"
             icon="📣"
             title="Criar campanha"
@@ -53,6 +59,12 @@ export default function GerenteHome() {
             icon="🧑‍🤝‍🧑"
             title="Associar colaboradores"
             description="Busca um colaborador e define o time dele."
+          />
+          <ChoiceCard
+            to="/associar-campanha"
+            icon="🔗"
+            title="Associar colaborador a campanha"
+            description="Adiciona um colaborador do time a uma campanha já existente."
           />
           <ChoiceCard
             to="/simular-venda"
