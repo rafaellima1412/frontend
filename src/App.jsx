@@ -55,6 +55,7 @@ export default function App() {
               <Route path="/inicio" element={<CoordenadorHome />} />
               <Route path="/delegar-times" element={<DelegarTimes />} />
               <Route path="/campanhas-por-gerente" element={<CampanhasPorGerente />} />
+              <Route path="/campanhas/nova" element={<CriarCampanha />} />
             </Route>
 
             <Route element={<RequireAdmin />}>
@@ -63,7 +64,6 @@ export default function App() {
 
             <Route element={<RequireGerente />}>
               <Route path="/gerente" element={<GerenteHome />} />
-              <Route path="/campanhas/nova" element={<CriarCampanha />} />
               <Route path="/associar-colaboradores" element={<AssociarColaboradores />} />
               <Route path="/associar-campanha" element={<AssociarCampanha />} />
             </Route>

@@ -49,12 +49,6 @@ export default function GerenteHome() {
             description="Vê as campanhas cadastradas e as vendas do time, por mês."
           />
           <ChoiceCard
-            to="/campanhas/nova"
-            icon="📣"
-            title="Criar campanha"
-            description="Gera o material com QR code pra um colaborador."
-          />
-          <ChoiceCard
             to="/associar-colaboradores"
             icon="🧑‍🤝‍🧑"
             title="Associar colaboradores"

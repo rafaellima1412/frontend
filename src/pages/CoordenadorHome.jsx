@@ -55,6 +55,12 @@ export default function CoordenadorHome() {
             description="Veja as campanhas do time de um gerente específico."
           />
           <ChoiceCard
+            to="/campanhas/nova"
+            icon="📣"
+            title="Criar campanha"
+            description="Gera o material com QR code pra um colaborador."
+          />
+          <ChoiceCard
             to="/simular-venda"
             icon="💰"
             title="Simular venda"
