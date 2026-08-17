@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { api, ApiError } from "../api/client";
 
@@ -14,26 +14,14 @@ const EMPTY_FORM = {
   cpf: "",
   password: "",
   role: "colaborador",
-  subordinado_id: "",
-  time_existente_id: "",
-  novo_time: "",
-  time_id: "",
 };
 
 export default function CadastrarUsuario() {
   const { user, logout } = useAuth();
   const [form, setForm] = useState(EMPTY_FORM);
-  const [timeModo, setTimeModo] = useState("existente"); // "existente" | "novo" — só relevante pra gerente
-  const [gerentes, setGerentes] = useState([]);
-  const [times, setTimes] = useState([]);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
   const [submitting, setSubmitting] = useState(false);
-
-  useEffect(() => {
-    api.get("/user/gerentes").then(setGerentes).catch(() => {});
-    api.get("/times/list").then(setTimes).catch(() => {});
-  }, [success]); // recarrega as listas depois de cada cadastro (novo gerente/time pode ter entrado)
 
   function updateField(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -52,13 +40,6 @@ export default function CadastrarUsuario() {
         cpf: form.cpf,
         password: form.password,
         role: form.role,
-        subordinado_id: form.role === "gerente" && form.subordinado_id ? Number(form.subordinado_id) : null,
-        time_existente_id:
-          form.role === "coordenador" && timeModo === "existente" && form.time_existente_id
-            ? Number(form.time_existente_id)
-            : null,
-        novo_time: form.role === "coordenador" && timeModo === "novo" ? form.novo_time : null,
-        time_id: form.role === "colaborador" && form.time_id ? Number(form.time_id) : null,
       };
 
       await api.postJson("/user/register", payload);
@@ -128,99 +109,6 @@ export default function CadastrarUsuario() {
             value={form.password}
             onChange={(v) => updateField("password", v)}
           />
-
-          {form.role === "gerente" && (
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-slate-700">Coordenador subordinado</label>
-              <select
-                required
-                value={form.subordinado_id}
-                onChange={(e) => updateField("subordinado_id", e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
-              >
-                <option value="" disabled>
-                  Escolher coordenador…
-                </option>
-                {gerentes.map((g) => (
-                  <option key={g.id} value={g.id}>
-                    {g.full_name}
-                  </option>
-                ))}
-              </select>
-              <p className="text-xs text-slate-400">
-                O(s) time(s) desse coordenador passam a ficar sob esse gerente.
-              </p>
-            </div>
-          )}
-
-          {form.role === "coordenador" && (
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700">Time</label>
-              <div className="flex gap-2 text-sm">
-                <button
-                  type="button"
-                  onClick={() => setTimeModo("existente")}
-                  className={`rounded-lg border px-3 py-1 ${
-                    timeModo === "existente" ? "border-brand-500 text-brand-700" : "border-slate-300 text-slate-500"
-                  }`}
-                >
-                  Time existente
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setTimeModo("novo")}
-                  className={`rounded-lg border px-3 py-1 ${
-                    timeModo === "novo" ? "border-brand-500 text-brand-700" : "border-slate-300 text-slate-500"
-                  }`}
-                >
-                  Criar novo time
-                </button>
-              </div>
-
-              {timeModo === "existente" ? (
-                <select
-                  required
-                  value={form.time_existente_id}
-                  onChange={(e) => updateField("time_existente_id", e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
-                >
-                  <option value="" disabled>
-                    Escolher time…
-                  </option>
-                  {times.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.name}
-                    </option>
-                  ))}
-                </select>
-              ) : (
-                <Field
-                  label={null}
-                  placeholder="Nome do novo time"
-                  value={form.novo_time}
-                  onChange={(v) => updateField("novo_time", v)}
-                />
-              )}
-            </div>
-          )}
-
-          {form.role === "colaborador" && (
-            <div className="space-y-1">
-              <label className="text-sm font-medium text-slate-700">Time (opcional)</label>
-              <select
-                value={form.time_id}
-                onChange={(e) => updateField("time_id", e.target.value)}
-                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
-              >
-                <option value="">Sem time por enquanto</option>
-                {times.map((t) => (
-                  <option key={t.id} value={t.id}>
-                    {t.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
 
           <button
             type="submit"
