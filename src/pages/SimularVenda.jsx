@@ -29,7 +29,7 @@ function useDebounced(value, delayMs) {
 
 export default function SimularVenda() {
   const { user } = useAuth();
-  const homeHref = user?.role === "coordenador" ? "/inicio" : "/gerente";
+  const homeHref = user?.role === "gerente" ? "/inicio" : "/gerente";
 
   const [busca, setBusca] = useState("");
   const [colaboradores, setColaboradores] = useState(null);

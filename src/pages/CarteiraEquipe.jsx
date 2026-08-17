@@ -27,7 +27,7 @@ function StatCard({ label, value, hint }) {
 
 export default function CarteiraEquipe() {
   const { user } = useAuth();
-  const ehCoordenador = user?.role === "coordenador";
+  const ehCoordenador = user?.role === "gerente";
 
   const endpoint = ehCoordenador ? "/carteira/geral" : "/carteira/time";
   const titulo = ehCoordenador ? "Carteira geral" : "Carteira do time";

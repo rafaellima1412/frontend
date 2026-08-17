@@ -3,8 +3,8 @@ import { useAuth } from "../context/AuthContext";
 import { api, ApiError } from "../api/client";
 
 const ROLES = [
-  { value: "coordenador", label: "Coordenador" },
   { value: "gerente", label: "Gerente" },
+  { value: "coordenador", label: "Coordenador" },
   { value: "colaborador", label: "Colaborador" },
 ];
 
@@ -52,12 +52,12 @@ export default function CadastrarUsuario() {
         cpf: form.cpf,
         password: form.password,
         role: form.role,
-        subordinado_id: form.role === "coordenador" && form.subordinado_id ? Number(form.subordinado_id) : null,
+        subordinado_id: form.role === "gerente" && form.subordinado_id ? Number(form.subordinado_id) : null,
         time_existente_id:
-          form.role === "gerente" && timeModo === "existente" && form.time_existente_id
+          form.role === "coordenador" && timeModo === "existente" && form.time_existente_id
             ? Number(form.time_existente_id)
             : null,
-        novo_time: form.role === "gerente" && timeModo === "novo" ? form.novo_time : null,
+        novo_time: form.role === "coordenador" && timeModo === "novo" ? form.novo_time : null,
         time_id: form.role === "colaborador" && form.time_id ? Number(form.time_id) : null,
       };
 
@@ -85,7 +85,7 @@ export default function CadastrarUsuario() {
 
       <main className="mx-auto max-w-lg px-6 py-8">
         <h1 className="mb-1 text-lg font-semibold text-ink-900">Cadastrar usuário</h1>
-        <p className="mb-6 text-sm text-slate-500">Coordenador, gerente ou colaborador — só admin cadastra.</p>
+        <p className="mb-6 text-sm text-slate-500">Gerente, coordenador ou colaborador — só admin cadastra.</p>
 
         {error && (
           <p className="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
@@ -129,9 +129,9 @@ export default function CadastrarUsuario() {
             onChange={(v) => updateField("password", v)}
           />
 
-          {form.role === "coordenador" && (
+          {form.role === "gerente" && (
             <div className="space-y-1">
-              <label className="text-sm font-medium text-slate-700">Gerente subordinado</label>
+              <label className="text-sm font-medium text-slate-700">Coordenador subordinado</label>
               <select
                 required
                 value={form.subordinado_id}
@@ -139,7 +139,7 @@ export default function CadastrarUsuario() {
                 className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
               >
                 <option value="" disabled>
-                  Escolher gerente…
+                  Escolher coordenador…
                 </option>
                 {gerentes.map((g) => (
                   <option key={g.id} value={g.id}>
@@ -148,12 +148,12 @@ export default function CadastrarUsuario() {
                 ))}
               </select>
               <p className="text-xs text-slate-400">
-                O(s) time(s) desse gerente passam a ficar sob esse coordenador.
+                O(s) time(s) desse coordenador passam a ficar sob esse gerente.
               </p>
             </div>
           )}
 
-          {form.role === "gerente" && (
+          {form.role === "coordenador" && (
             <div className="space-y-2">
               <label className="text-sm font-medium text-slate-700">Time</label>
               <div className="flex gap-2 text-sm">

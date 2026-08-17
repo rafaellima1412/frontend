@@ -9,7 +9,7 @@ import { useAuth } from "../context/AuthContext";
 export default function RequireCoordenador() {
   const { user } = useAuth();
 
-  if (user?.role !== "coordenador") {
+  if (user?.role !== "gerente") {
     return <Navigate to="/dashboard" replace />;
   }
 

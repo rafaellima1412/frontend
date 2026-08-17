@@ -35,8 +35,8 @@ function HomeRedirect() {
   }
 
   if (user.role === "admin") return <Navigate to="/cadastrar-usuario" replace />;
-  if (user.role === "coordenador") return <Navigate to="/inicio" replace />;
-  if (user.role === "gerente") return <Navigate to="/gerente" replace />;
+  if (user.role === "gerente") return <Navigate to="/inicio" replace />;
+  if (user.role === "coordenador") return <Navigate to="/gerente" replace />;
   return <Navigate to="/dashboard" replace />;
 }
 
