@@ -17,7 +17,7 @@ export default function CampanhasPorGerente() {
         setGerentes(lista);
         setGerenteId(lista[0]?.id ?? "");
       })
-      .catch((err) => setErro(err instanceof ApiError ? err.detail : "Erro ao buscar gerentes."));
+      .catch((err) => setErro(err instanceof ApiError ? err.detail : "Erro ao buscar coordenadores."));
   }, []);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function CampanhasPorGerente() {
     api
       .get(`/campanhas/de-gerente/${gerenteId}`)
       .then(setCampanhas)
-      .catch((err) => setErro(err instanceof ApiError ? err.detail : "Erro ao buscar campanhas do gerente."));
+      .catch((err) => setErro(err instanceof ApiError ? err.detail : "Erro ao buscar campanhas do coordenador."));
   }, [gerenteId]);
 
   return (
@@ -38,14 +38,14 @@ export default function CampanhasPorGerente() {
       </header>
 
       <main className="mx-auto max-w-5xl px-6 py-8">
-        <h1 className="mb-1 text-lg font-semibold text-ink-900">Campanhas por gerente</h1>
-        <p className="mb-6 text-sm text-slate-500">Escolha um gerente pra ver as campanhas do time dele.</p>
+        <h1 className="mb-1 text-lg font-semibold text-ink-900">Campanhas por coordenador</h1>
+        <p className="mb-6 text-sm text-slate-500">Escolha um coordenador pra ver as campanhas do time dele.</p>
 
         {erro && <p className="mb-4 text-sm text-red-600">{erro}</p>}
 
-        {gerentes === null && !erro && <p className="text-sm text-slate-400">Carregando gerentes…</p>}
+        {gerentes === null && !erro && <p className="text-sm text-slate-400">Carregando coordenadores…</p>}
 
-        {gerentes?.length === 0 && <EmptyState message="Nenhum gerente cadastrado ainda." />}
+        {gerentes?.length === 0 && <EmptyState message="Nenhum coordenador cadastrado ainda." />}
 
         {gerentes && gerentes.length > 0 && (
           <select
@@ -64,7 +64,7 @@ export default function CampanhasPorGerente() {
         {campanhas === null && gerenteId && <p className="text-sm text-slate-400">Carregando campanhas…</p>}
 
         {campanhas?.length === 0 && (
-          <EmptyState message="Esse gerente ainda não tem nenhuma campanha no time." />
+          <EmptyState message="Esse coordenador ainda não tem nenhuma campanha no time." />
         )}
 
         {campanhas && campanhas.length > 0 && (

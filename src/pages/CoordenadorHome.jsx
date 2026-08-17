@@ -45,14 +45,14 @@ export default function CoordenadorHome() {
           <ChoiceCard
             to="/delegar-times"
             icon="🧩"
-            title="Delegar times a gerentes"
-            description="Escolha qual gerente fica responsável por cada time."
+            title="Delegar times a coordenadores"
+            description="Escolha qual coordenador fica responsável por cada time."
           />
           <ChoiceCard
             to="/campanhas-por-gerente"
             icon="📣"
-            title="Campanhas por gerente"
-            description="Veja as campanhas do time de um gerente específico."
+            title="Campanhas por coordenador"
+            description="Veja as campanhas do time de um coordenador específico."
           />
           <ChoiceCard
             to="/campanhas/nova"

@@ -56,9 +56,9 @@ export default function DelegarTimes() {
       </header>
 
       <main className="mx-auto max-w-2xl px-6 py-8">
-        <h1 className="mb-1 text-lg font-semibold text-ink-900">Delegar times a gerentes</h1>
+        <h1 className="mb-1 text-lg font-semibold text-ink-900">Delegar times a coordenadores</h1>
         <p className="mb-6 text-sm text-slate-500">
-          Escolha qual gerente fica responsável por cada time.
+          Escolha qual coordenador fica responsável por cada time.
         </p>
 
         {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
@@ -79,7 +79,7 @@ export default function DelegarTimes() {
                 <div>
                   <p className="font-medium text-ink-900">{time.name}</p>
                   <p className="text-xs text-slate-400">
-                    {time.gerente ? `Gerente atual: ${time.gerente.full_name}` : "Sem gerente responsável"}
+                    {time.gerente ? `Coordenador atual: ${time.gerente.full_name}` : "Sem coordenador responsável"}
                   </p>
                 </div>
 
@@ -92,7 +92,7 @@ export default function DelegarTimes() {
                     className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
                   >
                     <option value="" disabled>
-                      Escolher gerente…
+                      Escolher coordenador…
                     </option>
                     {gerentes?.map((gerente) => (
                       <option key={gerente.id} value={gerente.id}>

@@ -13,8 +13,6 @@ const EMPTY_FORM = {
   paragraph: "",
   post_type: "promocao",
   url: "",
-  cpf_usuario: "",
-  matricula: "",
   folder_image: "",
 };
 
@@ -57,8 +55,6 @@ export default function CriarCampanha() {
         paragraph: form.paragraph,
         post_type: form.post_type,
         url: form.url || null,
-        cpf_usuario: form.cpf_usuario,
-        matricula: form.matricula,
         folder_image: form.folder_image,
       });
       navigate("/dashboard", { replace: true });
@@ -79,9 +75,7 @@ export default function CriarCampanha() {
 
       <main className="mx-auto max-w-lg px-6 py-8">
         <h1 className="mb-1 text-lg font-semibold text-ink-900">Criar campanha</h1>
-        <p className="mb-6 text-sm text-slate-500">
-          Gera o material personalizado (com QR code) pro colaborador informado.
-        </p>
+        <p className="mb-6 text-sm text-slate-500">Gera o material personalizado pra divulgar a campanha.</p>
 
         {error && (
           <p className="mb-4 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700" role="alert">
@@ -117,32 +111,22 @@ export default function CriarCampanha() {
           />
 
           <div className="border-t border-slate-100 pt-4">
-            <p className="mb-3 text-xs font-medium tracking-wide text-slate-400 uppercase">Colaborador</p>
-            <div className="space-y-4">
-              <Field label="CPF do colaborador" value={form.cpf_usuario} onChange={(v) => updateField("cpf_usuario", v)} />
-              <Field label="Matrícula" value={form.matricula} onChange={(v) => updateField("matricula", v)} />
-
-              <div className="space-y-1">
-                <label className="text-sm font-medium text-slate-700">Imagem base</label>
-                <input
-                  type="file"
-                  accept="image/png,image/jpeg,image/webp"
-                  onChange={handleFileChange}
-                  className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-50 file:px-3 file:py-2 file:text-sm file:font-medium file:text-brand-700 hover:file:bg-brand-100"
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-slate-700">Imagem base</label>
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                onChange={handleFileChange}
+                className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-50 file:px-3 file:py-2 file:text-sm file:font-medium file:text-brand-700 hover:file:bg-brand-100"
+              />
+              {uploading && <p className="text-xs text-slate-400">Enviando imagem…</p>}
+              {!uploading && form.folder_image && (
+                <img
+                  src={mediaUrl(form.folder_image)}
+                  alt="Prévia da imagem base"
+                  className="mt-2 h-32 w-auto rounded-lg border border-slate-200 object-contain"
                 />
-                {uploading && <p className="text-xs text-slate-400">Enviando imagem…</p>}
-                {!uploading && form.folder_image && (
-                  <img
-                    src={mediaUrl(form.folder_image)}
-                    alt="Prévia da imagem base"
-                    className="mt-2 h-32 w-auto rounded-lg border border-slate-200 object-contain"
-                  />
-                )}
-              </div>
-
-              <p className="-mt-2 text-xs text-slate-400">
-                O QR code (com CPF e matrícula) é colado automaticamente sobre essa imagem.
-              </p>
+              )}
             </div>
           </div>
 
