@@ -4,9 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import { ApiError } from "../api/client";
 
 function destinoPorRole(role) {
-  if (role === "coordenador") return "/inicio";
+  if (role === "gerente") return "/inicio";
   if (role === "admin") return "/cadastrar-usuario";
-  if (role === "gerente") return "/gerente";
+  if (role === "coordenador") return "/gerente";
   return "/dashboard";
 }
 

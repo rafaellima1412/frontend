@@ -36,7 +36,7 @@ export default function Dashboard() {
     <div className="min-h-screen bg-slate-50">
       <header className="flex items-center justify-between border-b border-slate-200 bg-white px-6 py-4">
         <div>
-          {user?.role === "coordenador" && (
+          {user?.role === "gerente" && (
             <Link to="/inicio" className="mb-1 block text-sm text-slate-500 hover:text-brand-700">
               ← Voltar
             </Link>
@@ -73,7 +73,7 @@ export default function Dashboard() {
                       key={campanha.id}
                       campanha={campanha}
                       editHref={
-                        user?.role === "gerente" || user?.role === "coordenador"
+                        user?.role === "coordenador" || user?.role === "gerente"
                           ? `/campanhas/${campanha.id}/editar`
                           : null
                       }
