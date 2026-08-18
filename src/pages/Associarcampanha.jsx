@@ -28,9 +28,10 @@ export default function AssociarCampanha() {
 
   useEffect(() => {
     if (colaborador) return;
-    const params = buscaDebounced.trim() ? `?q=${encodeURIComponent(buscaDebounced.trim())}` : "";
+    const params = new URLSearchParams({ sem_campanha: "true" });
+    if (buscaDebounced.trim()) params.set("q", buscaDebounced.trim());
     api
-      .get(`/user/colaboradores${params}`)
+      .get(`/user/colaboradores?${params.toString()}`)
       .then(setColaboradores)
       .catch((err) => setErro(err instanceof ApiError ? err.detail : "Erro ao buscar colaboradores."));
   }, [buscaDebounced, colaborador]);
@@ -171,7 +172,9 @@ export default function AssociarCampanha() {
                   </ul>
                 )}
                 {colaboradores && colaboradores.length === 0 && (
-                  <p className="mt-1 text-xs text-slate-400">Nenhum colaborador encontrado.</p>
+                  <p className="mt-1 text-xs text-slate-400">
+                    Nenhum colaborador sem campanha encontrado.
+                  </p>
                 )}
               </>
             )}
