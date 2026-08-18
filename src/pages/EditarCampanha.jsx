@@ -12,6 +12,7 @@ export default function EditarCampanha() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState(null);
+  const [locais, setLocais] = useState(null);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -29,11 +30,19 @@ export default function EditarCampanha() {
           paragraph: data.campaign.paragraph ?? "",
           post_type: data.campaign.post_type ?? "promocao",
           url: data.campaign.url ?? "",
+          local_id: data.campaign.local_id ?? "",
           folder_image: data.campaign.image ?? "",
         });
       })
       .catch((err) => setError(err instanceof ApiError ? err.detail : "Erro ao carregar campanha."));
   }, [id, navigate]);
+
+  useEffect(() => {
+    api
+      .get("/locais/")
+      .then(setLocais)
+      .catch(() => setLocais([]));
+  }, []);
 
   function updateField(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -66,6 +75,7 @@ export default function EditarCampanha() {
         paragraph: form.paragraph,
         post_type: form.post_type,
         url: form.url || null,
+        local_id: form.local_id ? Number(form.local_id) : null,
         folder_image: form.folder_image || null,
       });
       navigate("/dashboard", { replace: true });
@@ -123,6 +133,25 @@ export default function EditarCampanha() {
               onChange={(v) => updateField("url", v)}
               placeholder="https://…"
             />
+
+            <div className="space-y-1">
+              <label className="text-sm font-medium text-slate-700">Região (local)</label>
+              {locais === null && <p className="text-xs text-slate-400">Carregando locais…</p>}
+              {locais && locais.length > 0 && (
+                <select
+                  value={form.local_id}
+                  onChange={(e) => updateField("local_id", e.target.value)}
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+                >
+                  <option value="">Sem região definida</option>
+                  {locais.map((l) => (
+                    <option key={l.id} value={l.id}>
+                      {l.nome}
+                    </option>
+                  ))}
+                </select>
+              )}
+            </div>
 
             <div className="border-t border-slate-100 pt-4">
               <label className="text-sm font-medium text-slate-700">Imagem</label>

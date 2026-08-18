@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { api, ApiError, mediaUrl } from "../api/client";
 
@@ -13,15 +13,27 @@ const EMPTY_FORM = {
   paragraph: "",
   post_type: "promocao",
   url: "",
+  local_id: "",
   folder_image: "",
 };
 
 export default function CriarCampanha() {
   const navigate = useNavigate();
   const [form, setForm] = useState(EMPTY_FORM);
+  const [locais, setLocais] = useState(null);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    api
+      .get("/locais/")
+      .then((lista) => {
+        setLocais(lista);
+        setForm((prev) => ({ ...prev, local_id: prev.local_id || lista[0]?.id || "" }));
+      })
+      .catch(() => setLocais([]));
+  }, []);
 
   function updateField(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -55,6 +67,7 @@ export default function CriarCampanha() {
         paragraph: form.paragraph,
         post_type: form.post_type,
         url: form.url || null,
+        local_id: form.local_id ? Number(form.local_id) : null,
         folder_image: form.folder_image,
       });
       navigate("/dashboard", { replace: true });
@@ -100,6 +113,29 @@ export default function CriarCampanha() {
                 </option>
               ))}
             </select>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-sm font-medium text-slate-700">Região (local)</label>
+            {locais === null && <p className="text-xs text-slate-400">Carregando locais…</p>}
+            {locais?.length === 0 && (
+              <p className="text-xs text-slate-400">
+                Nenhum local cadastrado ainda. Cadastre um local antes de criar a campanha.
+              </p>
+            )}
+            {locais && locais.length > 0 && (
+              <select
+                value={form.local_id}
+                onChange={(e) => updateField("local_id", e.target.value)}
+                className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-100"
+              >
+                {locais.map((l) => (
+                  <option key={l.id} value={l.id}>
+                    {l.nome}
+                  </option>
+                ))}
+              </select>
+            )}
           </div>
 
           <Field
