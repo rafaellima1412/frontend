@@ -171,9 +171,7 @@ export default function AssociarCampanha() {
                   </ul>
                 )}
                 {colaboradores && colaboradores.length === 0 && (
-                  <p className="mt-1 text-xs text-slate-400">
-                    Nenhum colaborador encontrado (só aparecem os do seu time ou sem time ainda).
-                  </p>
+                  <p className="mt-1 text-xs text-slate-400">Nenhum colaborador encontrado.</p>
                 )}
               </>
             )}

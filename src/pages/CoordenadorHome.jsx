@@ -43,22 +43,16 @@ export default function CoordenadorHome() {
             description="Acompanhe vendas por plano, por mês e as campanhas de toda a empresa."
           />
           <ChoiceCard
-            to="/delegar-times"
-            icon="🧩"
-            title="Delegar times a coordenadores"
-            description="Escolha qual coordenador fica responsável por cada time."
-          />
-          <ChoiceCard
             to="/campanhas-por-gerente"
             icon="📣"
             title="Campanhas por coordenador"
-            description="Veja as campanhas do time de um coordenador específico."
+            description="Veja as campanhas de um coordenador específico e vincule campanhas sem coordenador."
           />
           <ChoiceCard
             to="/campanhas/nova"
             icon="📣"
             title="Criar campanha"
-            description="Gera o material com QR code pra um colaborador."
+            description="Cria uma campanha regional (o material que depois vira a campanha de um coordenador)."
           />
           <ChoiceCard
             to="/simular-venda"

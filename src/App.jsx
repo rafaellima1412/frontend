@@ -8,12 +8,10 @@ import RequireGerenteOuCoordenador from "./routes/RequireGerenteOuCoordenador";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import CoordenadorHome from "./pages/CoordenadorHome";
-import DelegarTimes from "./pages/DelegarTimes";
 import CadastrarUsuario from "./pages/CadastrarUsuario";
 import GerenteHome from "./pages/GerenteHome";
 import CriarCampanha from "./pages/CriarCampanha";
 import EditarCampanha from "./pages/EditarCampanha";
-import AssociarColaboradores from "./pages/AssociarColaboradores";
 import AssociarCampanha from "./pages/AssociarCampanha";
 import SimularVenda from "./pages/SimularVenda";
 import CarteiraEquipe from "./pages/CarteiraEquipe";
@@ -53,7 +51,6 @@ export default function App() {
 
             <Route element={<RequireCoordenador />}>
               <Route path="/inicio" element={<CoordenadorHome />} />
-              <Route path="/delegar-times" element={<DelegarTimes />} />
               <Route path="/campanhas-por-gerente" element={<CampanhasPorGerente />} />
               <Route path="/campanhas/nova" element={<CriarCampanha />} />
             </Route>
@@ -64,7 +61,6 @@ export default function App() {
 
             <Route element={<RequireGerente />}>
               <Route path="/gerente" element={<GerenteHome />} />
-              <Route path="/associar-colaboradores" element={<AssociarColaboradores />} />
               <Route path="/associar-campanha" element={<AssociarCampanha />} />
             </Route>
 

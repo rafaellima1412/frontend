@@ -49,16 +49,10 @@ export default function GerenteHome() {
             description="Vê as campanhas cadastradas e as vendas do time, por mês."
           />
           <ChoiceCard
-            to="/associar-colaboradores"
-            icon="🧑‍🤝‍🧑"
-            title="Associar colaboradores"
-            description="Busca um colaborador e define o time dele."
-          />
-          <ChoiceCard
             to="/associar-campanha"
             icon="🔗"
             title="Associar colaborador a campanha"
-            description="Adiciona um colaborador do time a uma campanha já existente."
+            description="Adiciona um colaborador a uma campanha sua já existente."
           />
           <ChoiceCard
             to="/simular-venda"
