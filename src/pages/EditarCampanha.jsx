@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { api, ApiError } from "../api/client";
+import { api, ApiError, mediaUrl } from "../api/client";
 
 const POST_TYPES = [
   { value: "promocao", label: "Promoção" },
@@ -12,10 +12,9 @@ export default function EditarCampanha() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [form, setForm] = useState(null);
-  const [times, setTimes] = useState([]);
-  const [selectedTimeIds, setSelectedTimeIds] = useState([]);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     api
@@ -30,10 +29,8 @@ export default function EditarCampanha() {
           paragraph: data.campaign.paragraph ?? "",
           post_type: data.campaign.post_type ?? "promocao",
           url: data.campaign.url ?? "",
-          matricula: "",
-          folder_image: "",
+          folder_image: data.campaign.image ?? "",
         });
-        setTimes(data.times ?? []);
       })
       .catch((err) => setError(err instanceof ApiError ? err.detail : "Erro ao carregar campanha."));
   }, [id, navigate]);
@@ -42,10 +39,20 @@ export default function EditarCampanha() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  function toggleTime(timeId) {
-    setSelectedTimeIds((prev) =>
-      prev.includes(timeId) ? prev.filter((t) => t !== timeId) : [...prev, timeId]
-    );
+  async function handleFileChange(e) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setError(null);
+    setUploading(true);
+    try {
+      const { url } = await api.postForm("/campanhas/upload-imagem", { file });
+      updateField("folder_image", url);
+    } catch (err) {
+      setError(err instanceof ApiError ? err.detail : "Erro ao enviar a imagem. Tenta de novo.");
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function handleSubmit(e) {
@@ -57,11 +64,9 @@ export default function EditarCampanha() {
       await api.putJson(`/campanhas/${id}`, {
         title: form.title,
         paragraph: form.paragraph,
-        time_ids: selectedTimeIds,
         post_type: form.post_type,
         url: form.url || null,
-        matricula: form.matricula || null,
-        folder_image: form.folder_image || null, // se preenchido, regenera a imagem com QR novo
+        folder_image: form.folder_image || null,
       });
       navigate("/dashboard", { replace: true });
     } catch (err) {
@@ -119,55 +124,27 @@ export default function EditarCampanha() {
               placeholder="https://…"
             />
 
-            {times.length > 0 && (
-              <div className="space-y-1">
-                <label className="text-sm font-medium text-slate-700">Times</label>
-                <div className="flex flex-wrap gap-2">
-                  {times.map((t) => (
-                    <button
-                      type="button"
-                      key={t.id}
-                      onClick={() => toggleTime(t.id)}
-                      className={`rounded-lg border px-3 py-1 text-sm ${
-                        selectedTimeIds.includes(t.id)
-                          ? "border-brand-500 bg-brand-50 text-brand-700"
-                          : "border-slate-300 text-slate-600"
-                      }`}
-                    >
-                      {t.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
             <div className="border-t border-slate-100 pt-4">
-              <p className="mb-1 text-xs font-medium tracking-wide text-slate-400 uppercase">
-                Regenerar imagem (opcional)
-              </p>
-              <p className="mb-3 text-xs text-slate-400">
-                Só preencha se quiser trocar a arte ou colar o QR de novo com outra matrícula.
-              </p>
-              <div className="space-y-3">
-                <Field
-                  label="Matrícula"
-                  required={false}
-                  value={form.matricula}
-                  onChange={(v) => updateField("matricula", v)}
+              <label className="text-sm font-medium text-slate-700">Imagem</label>
+              <input
+                type="file"
+                accept="image/png,image/jpeg,image/webp"
+                onChange={handleFileChange}
+                className="mt-1 block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-brand-50 file:px-3 file:py-2 file:text-sm file:font-medium file:text-brand-700 hover:file:bg-brand-100"
+              />
+              {uploading && <p className="mt-1 text-xs text-slate-400">Enviando imagem…</p>}
+              {!uploading && form.folder_image && (
+                <img
+                  src={mediaUrl(form.folder_image)}
+                  alt="Prévia da imagem"
+                  className="mt-2 h-32 w-auto rounded-lg border border-slate-200 object-contain"
                 />
-                <Field
-                  label="Nova imagem base (URL)"
-                  required={false}
-                  value={form.folder_image}
-                  onChange={(v) => updateField("folder_image", v)}
-                  placeholder="https://…/arte.png"
-                />
-              </div>
+              )}
             </div>
 
             <button
               type="submit"
-              disabled={submitting}
+              disabled={submitting || uploading}
               className="w-full rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-brand-700 disabled:opacity-60"
             >
               {submitting ? "Salvando…" : "Salvar"}
