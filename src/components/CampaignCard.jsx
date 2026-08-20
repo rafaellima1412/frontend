@@ -4,9 +4,9 @@ import { mediaUrl } from "../api/client";
 import { formatDate, formatPostType } from "../utils/format";
 
 const FORMATOS_SOCIAIS = [
-  { formato: "feed", label: "Feed (quadrado)" },
-  { formato: "stories", label: "Stories (vertical)" },
-  { formato: "post", label: "Post horizontal" },
+  { formato: "feed", label: "Postar no Feed" },
+  { formato: "stories", label: "Postar no Stories" },
+  { formato: "post", label: "Compartilhar no WhatsApp" },
 ];
 
 export default function CampaignCard({ campanha, editHref, showPostar = true }) {

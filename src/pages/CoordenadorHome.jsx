@@ -55,6 +55,12 @@ export default function CoordenadorHome() {
             description="Cria uma campanha regional (o material que depois vira a campanha de um coordenador)."
           />
           <ChoiceCard
+            to="/locais/novo"
+            icon="📍"
+            title="Cadastrar local"
+            description="Adiciona uma região nova pra usar nas campanhas."
+          />
+          <ChoiceCard
             to="/simular-venda"
             icon="💰"
             title="Simular venda"
@@ -65,6 +71,12 @@ export default function CoordenadorHome() {
             icon="📈"
             title="Carteira geral"
             description="Resultado e esforço somados de todos os colaboradores da empresa."
+          />
+          <ChoiceCard
+            to="/desempenho"
+            icon="🏆"
+            title="Desempenho"
+            description="Ranking de quem mais vendeu e mapa de pontos quentes por região."
           />
         </div>
       </main>

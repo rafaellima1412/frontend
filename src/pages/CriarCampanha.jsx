@@ -120,7 +120,11 @@ export default function CriarCampanha() {
             {locais === null && <p className="text-xs text-slate-400">Carregando locais…</p>}
             {locais?.length === 0 && (
               <p className="text-xs text-slate-400">
-                Nenhum local cadastrado ainda. Cadastre um local antes de criar a campanha.
+                Nenhum local cadastrado ainda.{" "}
+                <Link to="/locais/novo" className="font-medium text-brand-600 hover:underline">
+                  Cadastrar um local
+                </Link>{" "}
+                antes de criar a campanha.
               </p>
             )}
             {locais && locais.length > 0 && (
