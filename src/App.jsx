@@ -4,18 +4,20 @@ import ProtectedRoute from "./routes/ProtectedRoute";
 import RequireCoordenador from "./routes/RequireCoordenador";
 import RequireAdmin from "./routes/RequireAdmin";
 import RequireGerente from "./routes/RequireGerente";
-import RequireGerenteOuCoordenador from "./routes/RequireGerenteOuCoordenador";
+import RequireGerenteOuCoordenador from "./routes/Requiregerenteoucoordenador";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import CoordenadorHome from "./pages/CoordenadorHome";
+import CriarLocal from "./pages/CriarLocal";
 import CadastrarUsuario from "./pages/CadastrarUsuario";
 import GerenteHome from "./pages/GerenteHome";
 import CriarCampanha from "./pages/CriarCampanha";
 import EditarCampanha from "./pages/EditarCampanha";
-import AssociarCampanha from "./pages/AssociarCampanha";
+import AssociarCampanha from "./pages/Associarcampanha";
 import SimularVenda from "./pages/SimularVenda";
 import CarteiraEquipe from "./pages/CarteiraEquipe";
-import CampanhasPorGerente from "./pages/CampanhasPorGerente";
+import Desempenho from "./pages/Desempenho";
+import CampanhasPorGerente from "./pages/Campanhasporgerente";
 
 /** Ponto de entrada "/" (e qualquer rota desconhecida): manda pra tela
  * certa dependendo de quem está logado — admin só cadastra gente,
@@ -52,6 +54,7 @@ export default function App() {
             <Route element={<RequireCoordenador />}>
               <Route path="/inicio" element={<CoordenadorHome />} />
               <Route path="/campanhas-por-gerente" element={<CampanhasPorGerente />} />
+              <Route path="/locais/novo" element={<CriarLocal />} />
               <Route path="/campanhas/nova" element={<CriarCampanha />} />
             </Route>
 
@@ -67,6 +70,7 @@ export default function App() {
             <Route element={<RequireGerenteOuCoordenador />}>
               <Route path="/simular-venda" element={<SimularVenda />} />
               <Route path="/carteira-equipe" element={<CarteiraEquipe />} />
+              <Route path="/desempenho" element={<Desempenho />} />
             </Route>
           </Route>
 

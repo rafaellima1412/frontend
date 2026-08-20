@@ -13,7 +13,6 @@ export default function Dashboard() {
   const { user, logout } = useAuth();
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const [campanhasDoTime, setCampanhasDoTime] = useState(null);
 
   useEffect(() => {
     api
@@ -21,14 +20,6 @@ export default function Dashboard() {
       .then(setData)
       .catch((err) => setError(err instanceof ApiError ? err.detail : "Erro ao carregar dashboard."));
   }, []);
-
-  useEffect(() => {
-    if (user?.role !== "colaborador") return;
-    api
-      .get("/campanhas/do-time")
-      .then(setCampanhasDoTime)
-      .catch(() => setCampanhasDoTime([])); // seção de apoio — falha aqui não deve travar o resto do painel
-  }, [user?.role]);
 
   const campanhas = data?.campanhas ?? [];
 
@@ -81,36 +72,9 @@ export default function Dashboard() {
                   ))}
                 </div>
               ) : (
-                <EmptyState message="Nenhuma campanha ainda. Assim que uma for criada pro seu time, ela aparece aqui." />
+                <EmptyState message="Nenhuma campanha ainda. Assim que uma for criada e associada a você, ela aparece aqui." />
               )}
             </section>
-
-            {user?.role === "colaborador" && campanhasDoTime && (
-              <section>
-                <h2 className="mb-4 text-sm font-semibold tracking-wide text-slate-500 uppercase">
-                  Campanhas do time
-                </h2>
-
-                {(() => {
-                  const idsProprios = new Set(campanhas.map((c) => c.id));
-                  const doTime = campanhasDoTime.filter((c) => !idsProprios.has(c.id));
-
-                  if (doTime.length === 0) {
-                    return (
-                      <EmptyState message="Nenhuma outra campanha do time além das suas por enquanto." />
-                    );
-                  }
-
-                  return (
-                    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                      {doTime.map((campanha) => (
-                        <CampaignCard key={campanha.id} campanha={campanha} showPostar={false} />
-                      ))}
-                    </div>
-                  );
-                })()}
-              </section>
-            )}
 
             {user?.role === "colaborador" && (
               <section>

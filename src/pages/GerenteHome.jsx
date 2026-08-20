@@ -66,6 +66,12 @@ export default function GerenteHome() {
             title="Carteira do time"
             description="Resultado e esforço somados dos colaboradores do seu time."
           />
+          <ChoiceCard
+            to="/desempenho"
+            icon="🏆"
+            title="Desempenho"
+            description="Ranking de quem mais vendeu e mapa de pontos quentes por região."
+          />
         </div>
       </main>
     </div>
