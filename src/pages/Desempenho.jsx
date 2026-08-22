@@ -1,10 +1,33 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { MapContainer, TileLayer, CircleMarker, Tooltip } from "react-leaflet";
+import { MapContainer, TileLayer, CircleMarker, Tooltip, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import { useAuth } from "../context/AuthContext";
 import { api, ApiError } from "../api/client";
 import EmptyState from "../components/EmptyState";
+
+// MapContainer só usa `center`/`zoom` na primeira renderização — não
+// reajusta sozinho quando os pontos mudam. Esse componente roda dentro do
+// mapa e manda a câmera se ajustar pra caber todos os pontos com folga,
+// sem passar de um zoom "de bairro" mesmo quando os pontos estão bem
+// próximos uns dos outros (senão as bolinhas ficam coladas/ilegíveis).
+function AjustarParaPontos({ pontos }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (!pontos.length) return;
+
+    if (pontos.length === 1) {
+      map.setView([pontos[0].latitude, pontos[0].longitude], 13);
+      return;
+    }
+
+    const bounds = pontos.map((p) => [p.latitude, p.longitude]);
+    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 13 });
+  }, [map, pontos]);
+
+  return null;
+}
 
 export default function Desempenho() {
   const { user } = useAuth();
@@ -28,9 +51,6 @@ export default function Desempenho() {
   }, [escopo]);
 
   const maiorTotal = Math.max(1, ...(pontos ?? []).map((p) => p.total_vendas));
-  const centro = pontos?.length
-    ? [pontos[0].latitude, pontos[0].longitude]
-    : [-14.235, -51.9253]; // centro aproximado do Brasil, usado só se não houver pontos ainda
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -95,11 +115,16 @@ export default function Desempenho() {
 
           {pontos && pontos.length > 0 && (
             <div className="overflow-hidden rounded-xl shadow-sm ring-1 ring-slate-200" style={{ height: 420 }}>
-              <MapContainer center={centro} zoom={pontos.length > 1 ? 5 : 11} style={{ height: "100%", width: "100%" }}>
+              <MapContainer
+                center={[pontos[0].latitude, pontos[0].longitude]}
+                zoom={13}
+                style={{ height: "100%", width: "100%" }}
+              >
                 <TileLayer
                   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
+                <AjustarParaPontos pontos={pontos} />
                 {pontos.map((p) => (
                   <CircleMarker
                     key={p.local_id}

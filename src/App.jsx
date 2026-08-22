@@ -13,6 +13,7 @@ import CadastrarUsuario from "./pages/CadastrarUsuario";
 import GerenteHome from "./pages/GerenteHome";
 import CriarCampanha from "./pages/CriarCampanha";
 import EditarCampanha from "./pages/EditarCampanha";
+import DetalheCampanha from "./pages/DetalheCampanha";
 import AssociarCampanha from "./pages/Associarcampanha";
 import SimularVenda from "./pages/SimularVenda";
 import CarteiraEquipe from "./pages/CarteiraEquipe";
@@ -49,6 +50,7 @@ export default function App() {
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/campanhas/:id" element={<DetalheCampanha />} />
             <Route path="/campanhas/:id/editar" element={<EditarCampanha />} />
 
             <Route element={<RequireCoordenador />}>
