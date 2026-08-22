@@ -63,6 +63,7 @@ export default function Dashboard() {
                     <CampaignCard
                       key={campanha.id}
                       campanha={campanha}
+                      showPostar={user?.role === "colaborador"}
                       editHref={
                         user?.role === "coordenador" || user?.role === "gerente"
                           ? `/campanhas/${campanha.id}/editar`

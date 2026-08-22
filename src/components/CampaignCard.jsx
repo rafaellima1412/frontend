@@ -81,6 +81,12 @@ export default function CampaignCard({ campanha, editHref, showPostar = true }) 
               </button>
             )}
 
+            <Link
+              to={`/campanhas/${campanha.id}`}
+              className="text-xs font-medium text-slate-500 hover:text-brand-700 hover:underline"
+            >
+              Detalhes
+            </Link>
             {editHref && (
               <Link to={editHref} className="text-xs font-medium text-slate-500 hover:text-brand-700 hover:underline">
                 Editar

@@ -40,13 +40,7 @@ export default function GerenteHome() {
             to="/dashboard"
             icon="📊"
             title="Dashboard do time"
-            description="Campanhas e vendas do seu time."
-          />
-          <ChoiceCard
-            to="/dashboard"
-            icon="📊"
-            title="Campanhas e vendas do time"
-            description="Vê as campanhas cadastradas e as vendas do time, por mês."
+            description="Campanhas e vendas do seu time, por mês."
           />
           <ChoiceCard
             to="/associar-campanha"
